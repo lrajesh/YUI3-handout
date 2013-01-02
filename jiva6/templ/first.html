@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JIVA :: YUI3</title>
+    <link rel="stylesheet" href="/++resource++js/yui3/build/cssreset/cssreset.css" type="text/css">
+    <link rel="stylesheet" href="/++resource++js/yui3/build/cssfonts/cssfonts.css" type="text/css">
+    <link rel="stylesheet" href="/++resource++js/yui3/build/cssgrids/cssgrids.css" type="text/css">
+    <script type="text/javascript" src="/++resource++js/yui3/build/yui/yui-min.js"></script>
+    <script type="text/javascript" src="/++resource++js/modules.js"></script>
+    <style type="text/css">
+      body {
+        padding: 3px;
+      }
+      fieldset {
+        border: 1px solid;
+      }
+      .label {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body class="yui3-skin-sam">
+    <div id="mainContent"></div>
+    <div id="mycalendar" style="position:absolute"></div>
+    <script type="text/javascript">
+      /*
+      YUI().use('autocomplete', 'autocomplete-highlighters', function (Y) {
+        Y.one('#ac-input').plug(Y.Plugin.AutoComplete, {
+          resultHighlighter: 'phraseMatch',
+          source: 'select * from search.suggest where query="{query}"',
+          yqlEnv: 'http://pieisgood.org/yql/tables.env'
+        });
+      });
+      YUI().use('COMMON', function(Y){
+        Y.one('#btn').on('click', Y.COMMON.run);
+      });
+      */
+      YUI.namespace('Ze');
+      YUI().use('memsrc', function (Y) {
+          var o = new Y.TestView({container: Y.one('#mainContent')});
+          o.render();
+      });
+      YUI().use('zecalendar', function (Y) {
+        YUI.Ze.calendar = new Y.ZeCalendar({
+          contentBox: "#mycalendar",
+          showPrevMonth: true,
+          showNextMonth: true,
+          visible:false,
+          date: new Date()}).render();
+      });
+    </script>
+  </body>
+</html>

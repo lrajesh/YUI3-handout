@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Model Sync Zope</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <div>Model Sync Zope</div>
+        <script type="text/javascript" src="http://yui.yahooapis.com/3.8.0/build/yui/yui.js"></script>
+        <script type="text/javascript" src="ModelSyncZope.js"></script>
+        <script>
+            YUI({
+                // filter: 'raw'
+            }).use('model', 'model-list', 'model-sync-zope', function (Y) {
+                var MyModel = Y.Base.create(
+                    'myModel',
+                    Y.Model,
+                    [Y.ModelSync.Zope],
+                    {
+                        idAttribute: 'patientId',
+                        root: 'ModelRoot'
+                    },
+                    {
+
+                    }
+                );
+                var MyModelList = Y.Base.create(
+                    'myModelList',
+                    Y.ModelList,
+                    [Y.ModelSync.Zope],
+                    {
+                        root: 'ModelListRoot',
+                        model: MyModel
+
+                    },
+                    {
+
+                    }
+                );
+                var ml = new MyModelList({
+                });
+                ml.load(function (err) {
+                    console.log('ml load', err)
+                    var m = ml.item(0);
+                    m.set('fname', 'Satyam');
+                    m.set('fname', 'DevaSatyam');
+                    m.save(function (err) {
+                        console.log('m saved', err);
+                        m.set('fname', 'Cacho');
+                        m.save(function (err) {
+                            console.log('m saved 2', err);
+
+                            ml.create({fname: 'Julián', lname: 'Muñoz'}, function (err) {
+                                console.log('new model' , err);
+                                ml.each(function (m) {
+                                   console.log(m.get('id'));
+                                });
+
+                            });
+
+                        })
+                    });
+                });
+
+                /*
+                var m = new MyModel({
+                    root: 'mModelRoot'
+                })
+                m.idAttribute = 'PK'
+                m.setAttrs({
+                    PK: 1,
+                    fname: 'José',
+                    lname: 'Núñez'
+
+                });
+                m.save({},function (err, resp) {
+                    console.log(err, resp)
+                })
+*/
+            });
+        </script>
+
+    </body>
+</html>
